@@ -11,7 +11,16 @@ import { ProductComponent } from './components/product/product.component';
 
 import {UserRoutingModule} from './user-routing.module';
 
+@NgModule({
+  declarations: [DashboardComponent, MainComponent, MovementComponent, ClientComponent, ProductComponent, CategoryComponent],
+  imports: [
+    CommonModule,
+    UserRoutingModule,
 
+  ]
+})
+
+export class UserModule{}
 
 
 
