@@ -22,6 +22,8 @@ export class LoginComponent implements OnInit {
       username: this.email,
       password: this.password,
     };
+
+
     this.ls.login(user).subscribe(res => {
         const token = res.token;
         const bodyToken = JSON.parse(atob(token.split('.')[1]));
@@ -36,6 +38,7 @@ export class LoginComponent implements OnInit {
         console.log(error.error);
        // this.nts.notify('error', error.error);
       });
+
 
   }
 }

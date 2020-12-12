@@ -1,6 +1,5 @@
 
 
-
 import { Service } from './service';
 declare var $: any;
 
