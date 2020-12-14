@@ -20,10 +20,10 @@ export class LoginService {
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('_id', id);
     sessionStorage.setItem('rol', role);
-    if (role === 'Admin') {
+    if (role === 'admin') {
       this.router.navigate(['/admin']).then(r => console.log(r));
     }
-    if (role === 'User') {
+    if (role === 'user') {
       this.router.navigate(['/user']).then(r => console.log(r));
     }
   }

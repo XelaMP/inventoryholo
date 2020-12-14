@@ -1,6 +1,6 @@
 declare var $: any;
 
-export class utils{
+export class Utils{
     static loadScript(): void {
     $('.topbar .navbar').addClass('navbar-light');
 

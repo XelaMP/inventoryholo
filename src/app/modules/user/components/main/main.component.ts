@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import * as feather from 'feather-icons';
+
 import {Observable, Subscription} from "rxjs";
 import {LoginService} from "../../../../services/login.service";
 import {Utils} from "../../../../shared/utils";
@@ -19,7 +19,7 @@ export class MainComponent implements OnInit, OnDestroy {
   constructor(private ls: LoginService) { }
 
   ngOnInit(): void {
-    feather.replace();
+
     MainComponent.loadScript();
     this.getUser();
   }

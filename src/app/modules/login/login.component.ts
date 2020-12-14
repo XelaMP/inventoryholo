@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
         const userRes = bodyToken.user;
         console.log(token);
         if (userRes) {
+          console.log(userRes);
          // this.nts.notify('success', 'Ingresando...');
           this.ls.sessionIn(userRes._id, userRes.role, res.token);
         }
