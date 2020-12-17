@@ -6,6 +6,7 @@ import { UserComponent } from './components/user/user.component';
 import { WarehouseComponent } from './components/warehouse/warehouse.component';
 import {FormsModule} from '@angular/forms';
 import {AdminRoutingModule} from './admin-routing.module';
+import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 
 
 
@@ -17,7 +18,9 @@ import {AdminRoutingModule} from './admin-routing.module';
   imports: [
     CommonModule,
     AdminRoutingModule,
+    SweetAlert2Module,
     FormsModule,
+
 
   ]
 })

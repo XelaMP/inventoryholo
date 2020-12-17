@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { FooterComponent } from './components/footer/footer.component';
+
 
 
 import { LoginComponent } from './modules/login/login.component';
@@ -17,14 +17,14 @@ import {ProductService} from './services/product.service';
 import {UserService} from './services/user.service';
 import {WarehouseService} from './services/warehouse.service';
 import {InterceptorInterceptor} from './interceptors/interceptor.interceptor';
+import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    FooterComponent,
-    LoginComponent
+   LoginComponent
 
 
   ],
@@ -33,6 +33,7 @@ import {InterceptorInterceptor} from './interceptors/interceptor.interceptor';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    SweetAlert2Module.forRoot(),
 
   ],
   providers: [{

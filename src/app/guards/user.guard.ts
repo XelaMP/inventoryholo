@@ -9,7 +9,7 @@ export class UserGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-    if (sessionStorage.getItem('rol') === 'user') {
+    if (sessionStorage.getItem('rol') === 'User') {
       return true;
     }
     this.router.navigate(['/login']).then(r => console.log(r));
