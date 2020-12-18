@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginService} from '../../services/login.service';
 import {UserLogin} from '../../interfaces/user';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
   email: string;
   password: string;
 
-  constructor(private ls: LoginService) { }
+  constructor(private ls: LoginService, private nts: NotifierService) { }
 
   ngOnInit(): void {
   }
@@ -31,13 +32,13 @@ export class LoginComponent implements OnInit {
         console.log(token);
         if (userRes) {
           console.log(userRes);
-         // this.nts.notify('success', 'Ingresando...');
+          this.nts.notify('success', 'Ingresando...');
           this.ls.sessionIn(userRes._id, userRes.role, res.token);
         }
       },
       error => {
         console.log(error.error);
-       // this.nts.notify('error', error.error);
+        this.nts.notify('error', error.error);
       });
 
 

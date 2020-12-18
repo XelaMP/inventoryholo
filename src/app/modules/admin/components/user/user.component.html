@@ -83,8 +83,8 @@
                       type="button"
                       (click)="getKeyForDelete(item._id)"
                       class="btn waves-effect waves-light btn-rounded btn-sm btn-danger"
+                      [swal]="deleteSwal"
                     >
-
                       Eliminar
                     </button>
                   </td>
@@ -190,6 +190,7 @@
                 type="text"
                 id="cel"
                 required=""
+                onkeypress='return event.charCode >= 48 && event.charCode <= 57'
                 name="cel"
                 [(ngModel)]="item.cel"
                 placeholder="956847512"
@@ -213,6 +214,7 @@
                 class="form-control"
                 type="text"
                 id="phone"
+                onkeypress='return event.charCode >= 48 && event.charCode <= 57'
                 required=""
                 name="phone"
                 [(ngModel)]="item.phone"
@@ -235,10 +237,11 @@
               <label for="dni">DNI</label>
               <input
                 class="form-control"
-                type="number"
+                type="text"
                 id="dni"
                 required=""
                 name="dni"
+                onkeypress='return event.charCode >= 48 && event.charCode <= 57'
                 [(ngModel)]="item.dni"
                 placeholder="22548796"
               />
@@ -292,5 +295,6 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
+<notifier-container></notifier-container>
 
 

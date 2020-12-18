@@ -1,5 +1,6 @@
 import {Service} from './service';
 import {Subscription} from 'rxjs';
+import {NotifierService} from 'angular-notifier';
 
 declare var $: any;
 
@@ -8,7 +9,7 @@ export abstract class ComponentAbstract {
   idDelete: string;
   subscription = new Subscription();
 
-  protected constructor(public service: Service) {
+  protected constructor(public service: Service, private nts: NotifierService) {
     this.getItems();
     this.clean();
   }
@@ -22,13 +23,13 @@ export abstract class ComponentAbstract {
     if (this.idEdit !== '') {
       this.subscription.add(this.service.updateItem(item).subscribe((res) => {
         const response = JSON.stringify(res);
-        //  this.nts.notify('success', 'Actualizando...' );
+        this.nts.notify('success', 'Actualizando...' );
         this.getItems();
       }));
     } else {
       this.subscription.add(this.service.createItem(item).subscribe((res) => {
         const response = JSON.stringify(res);
-        // this.nts.notify('success', 'Creando...' );
+        this.nts.notify('success', 'Creando...' );
         this.getItems();
       }));
     }
@@ -38,7 +39,7 @@ export abstract class ComponentAbstract {
   deleteItem(): void {
     this.subscription.add(this.service.deleteItem(this.idDelete).subscribe((res) => {
       const response = JSON.stringify(res);
-      //  this.nts.notify('error', 'Eliminando...' );
+      this.nts.notify('error', 'Eliminando...' );
       this.getItems();
       this.clean();
     }));

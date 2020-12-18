@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ComponentAbstract} from '../../../../api/component';
 import {Warehouse} from '../../../../interfaces/warehouse';
 import {WarehouseService} from '../../../../services/warehouse.service';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-warehouse',
@@ -14,8 +15,8 @@ export class WarehouseComponent extends ComponentAbstract implements OnInit {
   title = 'Almacen';
   item: Warehouse;
 
-  constructor(public ws: WarehouseService) {
-    super(ws);
+  constructor(public ws: WarehouseService, private nt: NotifierService) {
+    super(ws, nt);
   }
 
   ngOnInit(): void {

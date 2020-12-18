@@ -4,6 +4,7 @@ import {User} from '../../../../interfaces/user';
 import {Warehouse} from '../../../../interfaces/warehouse';
 import {UserService} from '../../../../services/user.service';
 import {WarehouseService} from '../../../../services/warehouse.service';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-user',
@@ -18,8 +19,8 @@ export class UserComponent extends ComponentAbstract implements OnInit {
   warehouses: Warehouse[] = [];
 
 
-  constructor(public us: UserService, private ws: WarehouseService) {
-    super(us);
+  constructor(public us: UserService, private nt: NotifierService, private ws: WarehouseService) {
+    super(us, nt);
   }
 
   ngOnInit(): void {
@@ -36,7 +37,6 @@ export class UserComponent extends ComponentAbstract implements OnInit {
     this.case = 'Editar';
     this.idEdit = item._id;
     this.item = Object.assign({}, item);
-    console.log(this.item);
   }
 
   sendForm(): void {

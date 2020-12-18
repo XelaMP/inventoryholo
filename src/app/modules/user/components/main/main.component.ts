@@ -12,6 +12,7 @@ declare var $: any;
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit, OnDestroy {
+  anio: number = new Date().getFullYear();
 
   user: Observable<string>;
   private subscription: Subscription;
