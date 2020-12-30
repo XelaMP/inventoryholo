@@ -1,11 +1,10 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
 
 
-
-import { LoginComponent } from './modules/login/login.component';
+import {LoginComponent} from './modules/login/login.component';
 import {FormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app-routing.module';
@@ -20,6 +19,12 @@ import {InterceptorInterceptor} from './interceptors/interceptor.interceptor';
 import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 
 import {NotifierModule, NotifierOptions} from 'angular-notifier';
+import { GraphProductComponent } from './shared/components/graph-product/graph-product.component';
+import { StoreModule } from '@ngrx/store';
+import {appEffects, REDUCER_TOKEN} from './store';
+import {handleUndo} from 'ngrx-undo';
+import {EffectsModule} from '@ngrx/effects';
+
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -63,13 +68,11 @@ const customNotifierOptions: NotifierOptions = {
 };
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
-   LoginComponent,
-
-
+    LoginComponent,
+    GraphProductComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +81,8 @@ const customNotifierOptions: NotifierOptions = {
     HttpClientModule,
     NotifierModule.withConfig(customNotifierOptions),
     SweetAlert2Module.forRoot(),
+    StoreModule.forRoot(REDUCER_TOKEN, { metaReducers: [handleUndo]}),
+    EffectsModule.forRoot([...appEffects])
 
   ],
   providers: [{
@@ -92,8 +97,6 @@ const customNotifierOptions: NotifierOptions = {
     ProductService,
     UserService,
     WarehouseService,
-
-
   ],
   bootstrap: [AppComponent]
 })

@@ -4,7 +4,7 @@ import {ClientComponent} from './components/client/client.component';
 import {MovementComponent} from './components/movement/movement.component';
 import {CategoryComponent} from './components/category/category.component';
 import {ProductComponent} from './components/product/product.component';
-import {NgModel} from '@angular/forms';
+
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
@@ -17,12 +17,12 @@ const routes: Routes = [
       {
         path: '',
         children: [
-          {path: 'dashboard', component: DashboardComponent  },
-          { path: 'clients', component: ClientComponent },
-          { path: 'movements/:type', component: MovementComponent },
-          { path: 'categories', component: CategoryComponent },
-          { path: 'products', component: ProductComponent },
-          { path: '**', pathMatch: 'full', redirectTo: 'dashboard' },
+          {path: 'dashboard', component: DashboardComponent},
+          {path: 'clients', component: ClientComponent},
+          {path: 'movements/:type', component: MovementComponent},
+          {path: 'categories', component: CategoryComponent},
+          {path: 'products', component: ProductComponent},
+          {path: '**', pathMatch: 'full', redirectTo: 'dashboard'},
 
         ]
       }
@@ -31,7 +31,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
-export class UserRoutingModule {}
+export class UserRoutingModule {
+}

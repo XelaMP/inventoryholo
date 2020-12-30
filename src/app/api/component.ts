@@ -21,17 +21,19 @@ export abstract class ComponentAbstract {
   addItem(item: any): void {
     $('#form-user').modal('hide');
     if (this.idEdit !== '') {
-      this.subscription.add(this.service.updateItem(item).subscribe((res) => {
-        const response = JSON.stringify(res);
-        this.nts.notify('success', 'Actualizando...' );
+      this.service.updateItem(item).subscribe((res) => {
+        // const response = JSON.stringify(res);
+        this.nts.notify('success', 'Actualizando...');
         this.getItems();
-      }));
+      }, error => {
+        console.log(error);
+      })
     } else {
-      this.subscription.add(this.service.createItem(item).subscribe((res) => {
+      this.service.createItem(item).subscribe((res) => {
         const response = JSON.stringify(res);
-        this.nts.notify('success', 'Creando...' );
+        this.nts.notify('success', 'Creando...');
         this.getItems();
-      }));
+      });
     }
     this.clean();
   }
@@ -39,7 +41,7 @@ export abstract class ComponentAbstract {
   deleteItem(): void {
     this.subscription.add(this.service.deleteItem(this.idDelete).subscribe((res) => {
       const response = JSON.stringify(res);
-      this.nts.notify('error', 'Eliminando...' );
+      this.nts.notify('error', 'Eliminando...');
       this.getItems();
       this.clean();
     }));
@@ -56,7 +58,9 @@ export abstract class ComponentAbstract {
   abstract resetItem(): void;
 
   getKeyForDelete(key: number): void {
+    console.log(this.idDelete);
     this.idDelete = key.toString();
+
   }
 
   abstract sendForm(): void;

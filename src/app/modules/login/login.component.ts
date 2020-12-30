@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LoginService} from '../../services/login.service';
 import {UserLogin} from '../../interfaces/user';
 import {NotifierService} from 'angular-notifier';
@@ -13,7 +13,8 @@ export class LoginComponent implements OnInit {
   email: string;
   password: string;
 
-  constructor(private ls: LoginService, private nts: NotifierService) { }
+  constructor(private ls: LoginService, private nts: NotifierService) {
+  }
 
   ngOnInit(): void {
   }

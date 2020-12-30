@@ -1,8 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 
-import {Observable, Subscription} from "rxjs";
-import {LoginService} from "../../../../services/login.service";
-import {Utils} from "../../../../shared/utils";
+import {Observable, of, Subscription} from 'rxjs';
+import {LoginService} from '../../../../services/login.service';
+import {Utils} from '../../../../shared/utils';
+import {UserService} from '../../../../services/user.service';
+import {SearchAction} from '../../../../store/search/search.reducer';
+import {select, Store} from '@ngrx/store';
 
 declare var $: any;
 
@@ -16,12 +19,14 @@ export class MainComponent implements OnInit, OnDestroy {
 
   user: Observable<string>;
   private subscription: Subscription;
+  search: Observable<string>;
 
-  constructor(private ls: LoginService) { }
+  constructor(private ls: LoginService, private us: UserService, private store: Store<any>) {
+    this.search = store.pipe(select('search'));
+  }
 
   ngOnInit(): void {
-
-    MainComponent.loadScript();
+    Utils.loadScript();
     this.getUser();
   }
 
@@ -29,16 +34,21 @@ export class MainComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  private getUser(): void {
+  searchEvent(event: any): void {
+    const action = new SearchAction(event.target.value.toLowerCase());
+    this.store.dispatch(action);
+  }
 
+  private getUser(): void {
+    const id = sessionStorage.getItem('_id');
+    this.subscription = this.us.getItem(id).subscribe(() => {
+      this.user = of(this.us.item.name);
+
+    });
   }
 
   logOut(): void {
     this.ls.logOut();
-  }
-
-  private static loadScript(): void {
-    Utils.loadScript();
   }
 
 }

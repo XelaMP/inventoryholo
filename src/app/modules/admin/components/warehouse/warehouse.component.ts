@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ComponentAbstract} from '../../../../api/component';
 import {Warehouse} from '../../../../interfaces/warehouse';
 import {WarehouseService} from '../../../../services/warehouse.service';
@@ -21,10 +21,11 @@ export class WarehouseComponent extends ComponentAbstract implements OnInit {
 
   ngOnInit(): void {
   }
+
   edit(item: any): void {
-      this.case = 'Editar';
-      this.idEdit = item._id;
-      this.item = Object.assign({}, item);
+    this.case = 'Editar';
+    this.idEdit = item._id;
+    this.item = Object.assign({}, item);
   }
 
   sendForm(): void {
@@ -32,7 +33,7 @@ export class WarehouseComponent extends ComponentAbstract implements OnInit {
     this.addItem(this.item);
   }
 
-  resetItem(): void{
+  resetItem(): void {
     this.item = {
       name: '',
       address: '',

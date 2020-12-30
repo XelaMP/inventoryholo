@@ -14,10 +14,10 @@ const routes: Routes = [
       {
         path: '',
         children: [
-          { path: 'dashboard', component: DashboardComponent },
-          { path: 'users', component: UserComponent },
-          { path: 'warehouses', component: WarehouseComponent },
-          { path: '**',  pathMatch: 'full', redirectTo: 'dashboard' },
+          {path: 'dashboard', component: DashboardComponent},
+          {path: 'users', component: UserComponent},
+          {path: 'warehouses', component: WarehouseComponent},
+          {path: '**', pathMatch: 'full', redirectTo: 'dashboard'},
         ]
       }
     ]
@@ -29,4 +29,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AdminRoutingModule { }
+export class AdminRoutingModule {
+}

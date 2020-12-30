@@ -1,15 +1,47 @@
 import { Component, OnInit } from '@angular/core';
+import {ComponentAbstract} from '../../../../api/component';
+import {Client} from '../../../../interfaces/client';
+import {ClientService} from '../../../../services/client.service';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-client',
   templateUrl: './client.component.html',
   styleUrls: ['./client.component.css']
 })
-export class ClientComponent implements OnInit {
+export class ClientComponent extends ComponentAbstract implements OnInit {
+  case = 'Nuevo';
+  title = 'Cliente';
+  item: Client;
 
-  constructor() { }
+  constructor(public cs: ClientService, private nt: NotifierService) {
+    super(cs, nt);
+
+  }
 
   ngOnInit(): void {
   }
+  edit(item: any): void {
+    this.case = 'Editar';
+    this.idEdit = item._id;
+    this.item = Object.assign({}, item);
+  }
 
+  sendForm(): void {
+    this.item.dni = this.item.dni.toString();
+    this.addItem(this.item);
+  }
+
+  resetItem(): void {
+    this.item = {
+      address: '',
+      cel: '',
+      dni: '',
+      lastName: '',
+      mail: '',
+      name: '',
+      phone: '',
+      type: 'Recurrente'
+    };
+  }
 }

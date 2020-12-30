@@ -7,8 +7,10 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 
-export class AdminGuard implements CanActivate{
-  constructor(private router: Router) {}
+export class AdminGuard implements CanActivate {
+  constructor(private router: Router) {
+  }
+
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
     if (sessionStorage.getItem('rol') === 'Admin') {
       return true;
