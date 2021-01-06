@@ -35,6 +35,21 @@ export abstract class Service {
     );
   }
 
+  getItemNotStore(id: string): Observable<any> {
+    return this.http.get(this.URL_API + `/${id}`).pipe(
+      map((item: any) => {
+        this.item = item;
+      })
+    );
+  }
+  getItemsNoStore(): Observable<any> {
+    return this.http.get(this.URL_API).pipe(
+      map((items: any) => {
+        this.items = items;
+      })
+    );
+  }
+
   getItems(): Observable<any> {
     return this.http.get(this.URL_API).pipe(
       map((items: any[]) => {

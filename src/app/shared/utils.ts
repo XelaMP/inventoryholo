@@ -1,6 +1,63 @@
+import {NotifierOptions} from 'angular-notifier';
+
 declare var $: any;
 
 export class Utils {
+  static months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
+    'Noviembre', 'Diciembre'];
+
+  static customNotifierOptions: NotifierOptions = {
+    position: {
+      horizontal: {
+        position: 'right',
+        distance: 12
+      },
+      vertical: {
+        position: 'bottom',
+        distance: 12,
+        gap: 10
+      }
+    },
+    theme: 'material',
+    behaviour: {
+      autoHide: 5000,
+      onClick: 'hide',
+      onMouseover: 'pauseAutoHide',
+      showDismissButton: true,
+      stacking: 4
+    },
+    animations: {
+      enabled: true,
+      show: {
+        preset: 'slide',
+        speed: 300,
+        easing: 'ease'
+      },
+      hide: {
+        preset: 'fade',
+        speed: 300,
+        easing: 'ease',
+        offset: 50
+      },
+      shift: {
+        speed: 300,
+        easing: 'ease'
+      },
+      overlap: 150
+    }
+  };
+  static validatorFields(fields: any[]): boolean {
+    let field = true;
+    fields.forEach((element) => {
+      if (!this.validatorField(element)) {
+        field = false;
+      }
+    });
+    return field;
+  }
+  static validatorField(element: any): boolean {
+    return !(element === '' || element === undefined || element === 0);
+  }
 
   static dateToString(date = new Date()): string {
     return date.getFullYear() + '-' + Utils.forDate((date.getMonth() + 1)) + '-' + Utils.forDate(date.getDate());

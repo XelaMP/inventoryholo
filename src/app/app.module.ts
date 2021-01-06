@@ -19,11 +19,12 @@ import {InterceptorInterceptor} from './interceptors/interceptor.interceptor';
 import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 
 import {NotifierModule, NotifierOptions} from 'angular-notifier';
-import { GraphProductComponent } from './shared/components/graph-product/graph-product.component';
-import { StoreModule } from '@ngrx/store';
+import {StoreModule} from '@ngrx/store';
 import {appEffects, REDUCER_TOKEN} from './store';
 import {handleUndo} from 'ngrx-undo';
 import {EffectsModule} from '@ngrx/effects';
+import {ngxLoadingAnimationTypes, NgxLoadingModule} from 'ngx-loading';
+import {ChartsModule} from 'ng2-charts';
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -72,7 +73,6 @@ const customNotifierOptions: NotifierOptions = {
   declarations: [
     AppComponent,
     LoginComponent,
-    GraphProductComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,8 +81,14 @@ const customNotifierOptions: NotifierOptions = {
     HttpClientModule,
     NotifierModule.withConfig(customNotifierOptions),
     SweetAlert2Module.forRoot(),
-    StoreModule.forRoot(REDUCER_TOKEN, { metaReducers: [handleUndo]}),
-    EffectsModule.forRoot([...appEffects])
+    StoreModule.forRoot(REDUCER_TOKEN, {metaReducers: [handleUndo]}),
+    EffectsModule.forRoot([...appEffects]),
+    NgxLoadingModule.forRoot({
+      animationType: ngxLoadingAnimationTypes.wanderingCubes,
+      backdropBackgroundColour: 'rgba(0,0,0,0.07)',
+      backdropBorderRadius: '4px',
+    }),
+    ChartsModule
 
   ],
   providers: [{
@@ -100,4 +106,5 @@ const customNotifierOptions: NotifierOptions = {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

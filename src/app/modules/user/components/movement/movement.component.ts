@@ -52,7 +52,7 @@ export class MovementComponent extends ComponentAbstract implements OnInit {
     }
   }
 
-  private getItemsFilter(): void{
+  private getItemsFilter(): void {
     const filter: Filter = {
       _id: this.user.idWarehouse.toString(),
       type: this.type,
@@ -108,7 +108,7 @@ export class MovementComponent extends ComponentAbstract implements OnInit {
   }
 
   private getDateToday(): void {
-    this.from = Utils.dateString( 1);
+    this.from = Utils.dateString(1);
     this.to = Utils.dateString();
   }
 

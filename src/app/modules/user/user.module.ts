@@ -13,6 +13,7 @@ import {UserRoutingModule} from './user-routing.module';
 import {FormsModule} from '@angular/forms';
 import {NotifierModule, NotifierOptions, NotifierService} from 'angular-notifier';
 import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
+import {ComponentsModule} from '../../shared/components/components.module';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -58,14 +59,15 @@ const customNotifierOptions: NotifierOptions = {
 
 @NgModule({
   declarations: [DashboardComponent, MainComponent, MovementComponent, ClientComponent, ProductComponent, CategoryComponent],
-  imports: [
-    CommonModule,
-    UserRoutingModule,
-    SweetAlert2Module,
-    FormsModule,
-    NotifierModule.withConfig(customNotifierOptions),
+    imports: [
+        CommonModule,
+        UserRoutingModule,
+        SweetAlert2Module,
+        FormsModule,
+        NotifierModule.withConfig(customNotifierOptions),
+        ComponentsModule,
 
-  ]
+    ]
 })
 
 export class UserModule {
