@@ -17,6 +17,7 @@ const SecondaryBlue = '#006ddd';
   styleUrls: ['./graph-product.component.css']
 })
 export class GraphProductComponent implements OnInit, OnChanges {
+
   @Input() products: ServiceProduct[];
 
 
