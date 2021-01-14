@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {LoginService} from '../../services/login.service';
 import {UserLogin} from '../../interfaces/user';
 import {NotifierService} from 'angular-notifier';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit {
   email: string;
   password: string;
 
-  constructor(private ls: LoginService, private nts: NotifierService) {
+  constructor(private ls: LoginService, private nts: NotifierService, private title: Title) {
+    title.setTitle('Holosalud Inventario | Login');
   }
 
   ngOnInit(): void {
