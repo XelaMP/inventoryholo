@@ -12,6 +12,8 @@ import {ClientService} from '../../../../services/client.service';
 import {UserService} from '../../../../services/user.service';
 import {Utils} from '../../../../shared/utils';
 import {Filter} from '../../../../interfaces/filter';
+import {Provider} from '../../../../interfaces/provider';
+import {ProviderService} from '../../../../services/provider.service';
 
 @Component({
   selector: 'app-movement',
@@ -20,19 +22,29 @@ import {Filter} from '../../../../interfaces/filter';
 })
 export class MovementComponent extends ComponentAbstract implements OnInit {
 
-  type: string = '';
+  type = '';
   from: string;
   to: string;
+  idWarehouse: number;
+  stockLot = 0;
+  stockBase = 0;
+  lots: Movement[] = [];
+
+  measure = 'Unidad de Medida';
+  stock = 0;
+  perishable = false;
 
   case = 'Nueva';
   item: Movement;
   user: User;
   products: Product[] = [];
   clients: Client[] = [];
+  providers: Provider[] = [];
   movements: Movement[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router, public ms: MovementService,
-              private nt: NotifierService, private ps: ProductService, private cs: ClientService, private us: UserService) {
+              private nt: NotifierService, private ps: ProductService, private cs: ClientService,
+              private us: UserService, private pds: ProviderService) {
     super(ms, nt);
   }
 
@@ -52,6 +64,21 @@ export class MovementComponent extends ComponentAbstract implements OnInit {
     }
   }
 
+  changeProduct(): void {
+    const product = this.products.find(e => e._id.toString() === this.item.idProduct.toString());
+    this.measure = product.measure;
+    this.stock = product.stock;
+    this.stockBase = this.stock;
+    this.perishable = product.perishable;
+    this.getLots(product._id);
+  }
+
+  changeLot(): void {
+    const lot = this.lots.find(e => e.lot === this.item.lot);
+    this.stockLot = lot.quantity;
+    this.stockBase = this.stockLot;
+  }
+
   private getItemsFilter(): void {
     const filter: Filter = {
       _id: this.user.idWarehouse.toString(),
@@ -69,8 +96,9 @@ export class MovementComponent extends ComponentAbstract implements OnInit {
     this.type = this.route.snapshot.paramMap.get('type');
     this.getUser();
     this.getDateToday();
-    this.getProducts();
     this.getClients();
+    this.getProviders();
+    this.perishable = false;
   }
 
   edit(item: any): void {
@@ -78,6 +106,11 @@ export class MovementComponent extends ComponentAbstract implements OnInit {
     this.idEdit = item._id;
     this.item = Object.assign({}, item);
     this.item.date = Utils.dateToString(new Date(this.item.date));
+    if (this.item.perishable) {
+      this.perishable = this.item.perishable;
+      this.item.dueDate = Utils.dateToString(new Date(this.item.dueDate));
+    }
+    console.log(this.item);
   }
 
   sendForm(): void {
@@ -85,15 +118,26 @@ export class MovementComponent extends ComponentAbstract implements OnInit {
     this.item.idProduct = +n;
     const c = this.item.idClient.toString();
     this.item.idClient = +c;
+    const p = this.item.idProvider.toString();
+    this.item.idProvider = +p;
     this.item.idUser = this.user._id;
     this.item.idWarehouse = this.user.idWarehouse;
+    if (this.type !== 'input' && this.item.quantity > this.stockBase) {
+      this.nt.notify('error', '¡No Cuenta con Stock Disponible!');
+      return;
+    }
     if (this.type === 'output') {
       if (this.item.quantity > 0) {
         this.item.quantity = -this.item.quantity;
       }
     }
-    console.log(this.item);
-    this.addItem(this.item);
+    if (this.type === 'input' && this.perishable) {
+      this.item.state = true;
+    }
+
+    this.addItem(this.item).then(e => {
+      this.getProducts(this.user.idWarehouse.toString());
+    });
   }
 
   resetItem(): void {
@@ -103,7 +147,9 @@ export class MovementComponent extends ComponentAbstract implements OnInit {
       idUser: this.user === undefined ? 1 : this.user._id,
       idWarehouse: this.user === undefined ? 1 : this.user.idWarehouse,
       quantity: 1,
-      type: this.type
+      type: this.type,
+      idClient: 0,
+      idProvider: 0,
     };
   }
 
@@ -112,17 +158,39 @@ export class MovementComponent extends ComponentAbstract implements OnInit {
     this.to = Utils.dateString();
   }
 
+  getLots(idProduct: number): void {
+    const filter: Filter = {
+      _id: idProduct.toString(),
+      auxId: this.idWarehouse.toString()
+    };
+    this.ms.getItemsAllLotsWarehouse(filter).subscribe(() => {
+      this.lots = this.ms.items;
+      console.log(this.lots);
+      this.lots.forEach((e, i) => {
+        this.lots[i].dayDue = Utils.dueDateCompare(e.dueDate);
+      });
+    });
+  }
+
   private getUser(): void {
     const id = sessionStorage.getItem('_id');
     this.subscription.add(this.us.getItem(id).subscribe(() => {
       this.user = this.us.item;
-      this.getItems();
+      this.idWarehouse = this.user.idWarehouse;
+      this.getItemsFilter();
+      this.getProducts(this.user.idWarehouse.toString());
     }));
   }
 
-  private getProducts(): void {
-    this.subscription.add(this.ps.getItems().subscribe(() => {
+  private getProducts(idWarehouse: string): void {
+    this.subscription.add(this.ps.getItemsAllId(idWarehouse).subscribe(() => {
       this.products = this.ps.items;
+    }));
+  }
+
+  private getProviders(): void {
+    this.subscription.add(this.pds.getItems().subscribe(() => {
+      this.providers = this.pds.items;
     }));
   }
 

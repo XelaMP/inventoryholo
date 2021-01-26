@@ -9,6 +9,13 @@ import {User} from '../../../../interfaces/user';
 import {UserService} from '../../../../services/user.service';
 import {Store} from '@ngrx/store';
 import {SEARCH} from '../../../../store/search/search.reducer';
+import {Measure} from '../../../../interfaces/measure';
+import {Movement} from '../../../../interfaces/movement';
+import {MeasureService} from '../../../../services/measure.service';
+import {MovementService} from '../../../../services/movement.service';
+import {Filter} from '../../../../interfaces/filter';
+import {Utils} from '../../../../shared/utils';
+declare var $: any;
 
 @Component({
   selector: 'app-product',
@@ -20,15 +27,19 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
   case = 'Nuevo';
   title = 'Producto';
   item: Product;
+  idWarehouse: number;
   products: Product[] = [];
   categories: Category[] = [];
+  measures: Measure[] = [];
+  lots: Movement[] = [];
   private user: User;
   filter = 'all';
   temp = [];
   aux = [];
 
   constructor(public ps: ProductService, private nt: NotifierService, private cs: CategoryService, private us: UserService,
-              private store: Store<any>) {
+              private store: Store<any>, private ms: MeasureService,
+              private mvs: MovementService) {
     super(ps, nt);
     this.subscription.add(store.select(SEARCH).subscribe(data => {
       let text = 'all';
@@ -43,9 +54,11 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
   ngOnInit(): void {
     this.getCategories();
     this.getUser();
+    this.getMeasures();
   }
 
   ngOnDestroy(): void {
+    this.subscription.unsubscribe();
     this.subscription.unsubscribe();
   }
 
@@ -83,6 +96,26 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
       this.categories = this.cs.items;
     }));
   }
+  private getMeasures(): void {
+    this.subscription.add(this.ms.getItems().subscribe(() => {
+      this.measures = this.ms.items;
+    }));
+  }
+  getLots(idProduct: number): void {
+    const filter: Filter = {
+      _id: idProduct.toString(),
+      auxId: this.idWarehouse.toString()
+    };
+    this.mvs.getItemsAllLotsWarehouse(filter).subscribe(() => {
+      this.lots = this.mvs.items;
+      this.lots.forEach((e, i) => {
+        this.lots[i].dayDue = Utils.dueDateCompare(e.dueDate);
+      });
+    });
+  }
+  closeLots(): void {
+    $('#form-lot').modal('hide');
+  }
 
   edit(item: any): void {
     this.case = 'Editar';
@@ -94,6 +127,8 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
   sendForm(): void {
     const n = this.item.idCategory.toString();
     this.item.idCategory = +n;
+    const n2 = this.item.idMeasure.toString();
+    this.item.idMeasure = +n2;
     this.addItem(this.item);
   }
 
@@ -103,7 +138,8 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
       description: '',
       idCategory: 0,
       price: 0,
-      stock: 0
+      stock: 0,
+      perishable: false
     };
   }
 

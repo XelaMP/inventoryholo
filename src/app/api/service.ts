@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {Filter} from '../interfaces/filter';
 
@@ -11,8 +11,8 @@ export abstract class Service {
   protected constructor(private http: HttpClient, readonly URL_API) {
   }
 
-  getItemsAllId(_id: string): Observable<any> {
-    return this.http.get(this.URL_API + `all/${_id}`).pipe(
+  getItemsAllId(id: string): Observable<any> {
+    return this.http.get(this.URL_API + `all/${id}`).pipe(
       map((items: any[]) => {
         this.items = items;
       })
@@ -27,8 +27,8 @@ export abstract class Service {
     );
   }
 
-  getItemsAllIdRuta(_id: string, ruta: string): Observable<any> {
-    return this.http.get(this.URL_API + `${ruta}/${_id}`).pipe(
+  getItemsAllIdRuta(id: string, ruta: string): Observable<any> {
+    return this.http.get(this.URL_API + `${ruta}/${id}`).pipe(
       map((items: any[]) => {
         this.items = items;
       })
@@ -74,7 +74,7 @@ export abstract class Service {
     return this.http.put(this.URL_API + `${item._id}`, item);
   }
 
-  deleteItem(_id: string): Observable<any> {
-    return this.http.delete(this.URL_API + `${_id}`);
+  deleteItem(id: string): Observable<any> {
+    return this.http.delete(this.URL_API + `${id}`);
   }
 }

@@ -7,6 +7,8 @@ import {ProductComponent} from './components/product/product.component';
 
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {MeasureComponent} from './components/measure/measure.component';
+import {ProviderComponent} from './components/provider/provider.component';
 
 
 const routes: Routes = [
@@ -22,6 +24,8 @@ const routes: Routes = [
           {path: 'movements/:type', component: MovementComponent},
           {path: 'categories', component: CategoryComponent},
           {path: 'products', component: ProductComponent},
+          { path: 'measure', component: MeasureComponent },
+          { path: 'provider', component: ProviderComponent },
           {path: '**', pathMatch: 'full', redirectTo: 'dashboard'},
 
         ]

@@ -25,6 +25,8 @@ import {handleUndo} from 'ngrx-undo';
 import {EffectsModule} from '@ngrx/effects';
 import {ngxLoadingAnimationTypes, NgxLoadingModule} from 'ngx-loading';
 import {ChartsModule} from 'ng2-charts';
+import {MeasureService} from './services/measure.service';
+import {ProviderService} from './services/provider.service';
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -103,6 +105,8 @@ const customNotifierOptions: NotifierOptions = {
     ProductService,
     UserService,
     WarehouseService,
+    MeasureService,
+    ProviderService,
   ],
   bootstrap: [AppComponent]
 })

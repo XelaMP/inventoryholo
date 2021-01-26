@@ -81,7 +81,12 @@ export class Utils {
     }
     return nn;
   }
-
+  static dueDateCompare(dueDateS: string): number {
+    const dueDate = new Date(dueDateS);
+    const date = new Date();
+    const res = dueDate.getTime() - date.getTime();
+    return res / (60 * 60 * 24 * 1000);
+  }
 
   static loadScript(): void {
     $('.topbar .navbar').addClass('navbar-light');

@@ -16,7 +16,7 @@ const routes: Routes = [{path: '', redirectTo: '/login', pathMatch: 'full'},
     path: 'user',
     loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule),
     canActivate: [UserGuard], data: {preload: true}
-  },
+  }
 ];
 
 @NgModule({

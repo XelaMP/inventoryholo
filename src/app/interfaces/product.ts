@@ -5,4 +5,11 @@ export interface Product {
   price: number;
   stock: number;
   idCategory: number;
+
+  idProductMeasure?: number;
+  idMeasure?: number;
+  measure?: string;
+  unity?: number;
+  minAlert?: number;
+  perishable?: boolean;
 }

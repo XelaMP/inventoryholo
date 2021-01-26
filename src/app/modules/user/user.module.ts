@@ -15,6 +15,9 @@ import {NotifierModule, NotifierOptions, NotifierService} from 'angular-notifier
 import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 import {ComponentsModule} from '../../shared/components/components.module';
 
+import {ProviderComponent} from './components/provider/provider.component';
+import {MeasureComponent} from './components/measure/measure.component';
+
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -58,16 +61,17 @@ const customNotifierOptions: NotifierOptions = {
 
 
 @NgModule({
-  declarations: [DashboardComponent, MainComponent, MovementComponent, ClientComponent, ProductComponent, CategoryComponent],
-    imports: [
-        CommonModule,
-        UserRoutingModule,
-        SweetAlert2Module,
-        FormsModule,
-        NotifierModule.withConfig(customNotifierOptions),
-        ComponentsModule,
+  declarations: [DashboardComponent, MainComponent, MovementComponent, ClientComponent,
+    ProductComponent, CategoryComponent, MeasureComponent, ProviderComponent],
+  imports: [
+    CommonModule,
+    UserRoutingModule,
+    SweetAlert2Module,
+    FormsModule,
+    NotifierModule.withConfig(customNotifierOptions),
+    ComponentsModule,
 
-    ]
+  ]
 })
 
 export class UserModule {

@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  api: 'http://localhost:8001/api',
+  api: 'http://localhost:8000/api'
+
 };
 
 /*
@@ -13,5 +14,7 @@ export const environment = {
  *
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
+ *   //api: 'http://localhost:8001/api',
+ *   //api: 'https://api-inventory.holosalud.org/api',
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
