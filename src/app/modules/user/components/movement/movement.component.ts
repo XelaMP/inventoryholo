@@ -107,8 +107,8 @@ export class MovementComponent extends ComponentAbstract implements OnInit {
     this.item = Object.assign({}, item);
     this.item.date = Utils.dateToString(new Date(this.item.date));
     if (this.item.perishable) {
-      this.perishable = this.item.perishable;
       this.item.dueDate = Utils.dateToString(new Date(this.item.dueDate));
+      this.changeProduct();
     }
     console.log(this.item);
   }
@@ -169,6 +169,9 @@ export class MovementComponent extends ComponentAbstract implements OnInit {
       this.lots.forEach((e, i) => {
         this.lots[i].dayDue = Utils.dueDateCompare(e.dueDate);
       });
+      if (this.item.lot){
+          this.changeLot();
+      }
     });
   }
 

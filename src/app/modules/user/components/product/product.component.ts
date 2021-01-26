@@ -79,16 +79,18 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
   getProductsStock(idWarehouse: number): void {
     this.ps.getItemsAllId(idWarehouse.toString()).subscribe(() => {
       this.products = this.ps.items;
+      this.products = this.products.sort((a, b) => a.stock > b.stock ? 1 : -1);
       this.temp = this.products;
     });
   }
 
   private getUser(): void {
     const id = sessionStorage.getItem('_id');
-    this.subscription = this.us.getItem(id).subscribe(() => {
+    this.subscription.add(this.us.getItem(id).subscribe(() => {
       this.user = this.us.item;
+      this.idWarehouse = this.user.idWarehouse;
       this.getProductsStock(this.user.idWarehouse);
-    });
+    }));
   }
 
   private getCategories(): void {
