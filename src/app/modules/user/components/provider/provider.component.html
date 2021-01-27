@@ -163,6 +163,7 @@
                 class="form-control"
                 type="text"
                 id="cel"
+                onkeypress='return event.charCode >= 48 && event.charCode <= 57'
                 required=""
                 name="cel"
                 [(ngModel)]="item.cel"
@@ -175,6 +176,7 @@
                 class="form-control"
                 type="text"
                 id="tel"
+                onkeypress='return event.charCode >= 48 && event.charCode <= 57'
                 required=""
                 name="tel"
                 [(ngModel)]="item.phone"
@@ -194,13 +196,13 @@
               />
             </div>
             <div class="form-group col-lg-6">
-              <label for="dni">RUC</label>
+              <label for="ruc">RUC</label>
               <input
                 class="form-control"
                 type="number"
-                id="dni"
+                id="ruc"
                 required=""
-                name="address"
+                name="ruc"
                 [(ngModel)]="item.ruc"
                 placeholder="22548796"
               />

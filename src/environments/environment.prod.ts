@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  api: 'https://api-inventory.holosalud.org/api',
+  api: 'http://localhost:8000/api',
 
 };

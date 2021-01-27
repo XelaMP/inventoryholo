@@ -25,11 +25,13 @@ export class ClientComponent extends ComponentAbstract implements OnInit {
     this.case = 'Editar';
     this.idEdit = item._id;
     this.item = Object.assign({}, item);
+    console.log(this.item);
   }
 
   sendForm(): void {
     this.item.dni = this.item.dni.toString();
     this.addItem(this.item);
+    console.log(this.item);
   }
 
   resetItem(): void {
