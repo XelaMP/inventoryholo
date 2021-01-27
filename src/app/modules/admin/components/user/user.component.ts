@@ -53,7 +53,7 @@ export class UserComponent extends ComponentAbstract implements OnInit {
   resetItem(): void {
     this.item = {
       username: '',
-      rol: 'Admin',
+      role: 'Admin',
       idWarehouse: -1,
       password: '',
       address: '',

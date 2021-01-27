@@ -67,7 +67,7 @@
                   <td>{{ i + 1 }}</td>
                   <td>{{ item.name }} {{item.lastName}}</td>
                   <td>{{item.username}}</td>
-                  <td>{{ item.rol == 'Admin' ? 'Administrador' : 'Almacenero'}}</td>
+                  <td>{{ item.role == 'Admin' ? 'Administrador' : 'Almacenero'}}</td>
                   <td>{{ item.cel}}</td>
                   <td>
                     <button
@@ -253,13 +253,13 @@
                 class="form-control"
                 id="exampleFormControlSelect2"
                 name="role"
-                [(ngModel)]="item.rol"
+                [(ngModel)]="item.role"
               >
                 <option value="Admin">Administrador</option>
                 <option value="User">Almacenero</option>
               </select>
             </div>
-            <div class="form-group col-lg-6" *ngIf="item.rol == 'User'">
+            <div class="form-group col-lg-6" *ngIf="item.role == 'User'">
               <label for="exampleFormControlSelect3">Almacen</label>
               <select
                 class="form-control"
