@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   api: 'http://localhost:8001/api',
+  SECRET_API_FILES: 'miclavedetokens',
+  api_files: 'https://api-files.holosalud.org',
 
 };
 

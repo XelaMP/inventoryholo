@@ -54,6 +54,8 @@ export abstract class ComponentAbstract {
       this.nts.notify('error', 'Eliminando...');
       this.getItems();
       this.clean();
+    }, error => {
+      this.nts.notify('error', '¡Hubo un error al eliminar!' );
     }));
   }
 
@@ -68,7 +70,6 @@ export abstract class ComponentAbstract {
   abstract resetItem(): void;
 
   getKeyForDelete(key: number): void {
-    console.log(this.idDelete);
     this.idDelete = key.toString();
 
   }

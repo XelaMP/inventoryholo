@@ -17,6 +17,7 @@ import {ComponentsModule} from '../../shared/components/components.module';
 
 import {ProviderComponent} from './components/provider/provider.component';
 import {MeasureComponent} from './components/measure/measure.component';
+import { InvoiceComponent } from './components/invoice/invoice.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -62,7 +63,7 @@ const customNotifierOptions: NotifierOptions = {
 
 @NgModule({
   declarations: [DashboardComponent, MainComponent, MovementComponent, ClientComponent,
-    ProductComponent, CategoryComponent, MeasureComponent, ProviderComponent],
+    ProductComponent, CategoryComponent, MeasureComponent, ProviderComponent, InvoiceComponent],
   imports: [
     CommonModule,
     UserRoutingModule,

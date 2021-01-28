@@ -27,6 +27,8 @@ import {ngxLoadingAnimationTypes, NgxLoadingModule} from 'ngx-loading';
 import {ChartsModule} from 'ng2-charts';
 import {MeasureService} from './services/measure.service';
 import {ProviderService} from './services/provider.service';
+import {ApiFilesService} from './services/api-files.service';
+import {InvoiceService} from './services/invoice.service';
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -107,6 +109,8 @@ const customNotifierOptions: NotifierOptions = {
     WarehouseService,
     MeasureService,
     ProviderService,
+    ApiFilesService,
+    InvoiceService,
   ],
   bootstrap: [AppComponent]
 })
