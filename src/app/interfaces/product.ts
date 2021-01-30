@@ -13,3 +13,12 @@ export interface Product {
   minAlert?: number;
   perishable?: boolean;
 }
+
+
+export interface ProductX {
+  Nombre: string;
+  Precio: number;
+  Stock: number;
+  Medida?: string;
+  Unidades?: number;
+}

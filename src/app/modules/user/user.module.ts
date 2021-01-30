@@ -18,6 +18,7 @@ import {ComponentsModule} from '../../shared/components/components.module';
 import {ProviderComponent} from './components/provider/provider.component';
 import {MeasureComponent} from './components/measure/measure.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
+import {PdfViewerModule} from 'ng2-pdf-viewer';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -71,6 +72,7 @@ const customNotifierOptions: NotifierOptions = {
     FormsModule,
     NotifierModule.withConfig(customNotifierOptions),
     ComponentsModule,
+    PdfViewerModule,
 
   ]
 })

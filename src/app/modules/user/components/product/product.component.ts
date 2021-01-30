@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ComponentAbstract} from '../../../../api/component';
-import {Product} from '../../../../interfaces/product';
+import {Product, ProductX} from '../../../../interfaces/product';
 import {Category} from '../../../../interfaces/category';
 import {ProductService} from '../../../../services/product.service';
 import {NotifierService} from 'angular-notifier';
@@ -15,6 +15,7 @@ import {MeasureService} from '../../../../services/measure.service';
 import {MovementService} from '../../../../services/movement.service';
 import {Filter} from '../../../../interfaces/filter';
 import {Utils} from '../../../../shared/utils';
+import {ExcelService} from '../../../../services/excel.service';
 declare var $: any;
 
 @Component({
@@ -38,7 +39,7 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
   aux = [];
 
   constructor(public ps: ProductService, private nt: NotifierService, private cs: CategoryService, private us: UserService,
-              private store: Store<any>, private ms: MeasureService,
+              private store: Store<any>, private ms: MeasureService, private xs: ExcelService,
               private mvs: MovementService) {
     super(ps, nt);
     this.subscription.add(store.select(SEARCH).subscribe(data => {
@@ -143,6 +144,22 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
       stock: 0,
       perishable: false
     };
+  }
+
+  downloadXLS(): void {
+    const worksheet: ProductX[] = [];
+    for (const x1 of this.products) {
+      const no: ProductX = {
+        Nombre: x1.name,
+        Precio: x1.price,
+        Stock: x1.stock,
+        Medida: x1.measure,
+        Unidades: x1.unity,
+      };
+      worksheet.push(no);
+    }
+    const fileName = 'Productos';
+    this.xs.exportAsExcelFile(worksheet, fileName);
   }
 
 }
