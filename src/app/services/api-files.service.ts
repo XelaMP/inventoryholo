@@ -4,7 +4,6 @@ import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +11,8 @@ export class ApiFilesService {
 
   token: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   loginApiFiles(): Observable<any> {
     const item = {
@@ -44,6 +44,7 @@ export class ApiFilesService {
 
     return this.http.post(environment.api_files + '/invoice/', formData, {headers});
   }
+
   deleteInvoice(idImage: string, token: string): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: token

@@ -31,6 +31,8 @@ export class InvoiceComponent extends ComponentAbstract implements OnInit, OnDes
   invoices: Invoice[] = [];
   isImage = true;
   searchTemp = '';
+  filter = 'all';
+  selectImg = false;
 
   constructor(public is: InvoiceService, private ns: NotifierService, private afs: ApiFilesService,
               private pds: ProviderService, private store: Store<any>) {
@@ -66,6 +68,9 @@ export class InvoiceComponent extends ComponentAbstract implements OnInit, OnDes
 
   search(val: string): void {
     this.invoices = this.temp;
+    if (this.filter !== 'all') {
+      this.invoices = this.invoices.filter(data => data.idProvider.toString() === this.filter);
+    }
     if (val !== 'all') {
       this.invoices = this.invoices.filter(data =>
         data.name.toLowerCase().indexOf(val) !== -1 ||
@@ -92,6 +97,7 @@ export class InvoiceComponent extends ComponentAbstract implements OnInit, OnDes
 
 
   fileChange(element): void {
+    this.selectImg = true;
     this.uploadedFiles = element.target.files;
   }
 
@@ -114,13 +120,14 @@ export class InvoiceComponent extends ComponentAbstract implements OnInit, OnDes
     this.isImage = true;
     const endpointApiFiles = environment.api_files;
     this.sourceURL = endpointApiFiles + '/invoice/?name=' + idSource + '&token=' + this.tokenApiFiles;
-    if (idSource.indexOf('.pdf') !== - 1) {
+    if (idSource.indexOf('.pdf') !== -1) {
       this.isImage = false;
     }
     this.afs.getInvoice(this.tokenApiFiles, idSource).subscribe();
   }
 
   edit(item: any): void {
+    this.selectImg = false;
     this.case = 'Editar';
     this.idEdit = item._id;
     this.item = Object.assign({}, item);
@@ -128,10 +135,14 @@ export class InvoiceComponent extends ComponentAbstract implements OnInit, OnDes
   }
 
   sendForm(): void {
-    this.uploadInvoice().then((e) => {
-      this.item.idImage = e;
+    if (this.selectImg) {
+      this.uploadInvoice().then((e) => {
+        this.item.idImage = e;
+        this.addItem(this.item);
+      });
+    } else {
       this.addItem(this.item);
-    });
+    }
   }
 
   resetItem(): void {
@@ -145,8 +156,8 @@ export class InvoiceComponent extends ComponentAbstract implements OnInit, OnDes
   deleteItem(): void {
     this.subscription.add(this.service.deleteItem(this.idDelete).subscribe((res) => {
       const invoice = this.invoices.find(e => e._id = +this.idDelete);
-      if (invoice.idImage !== undefined){
-          this.afs.deleteInvoice(invoice.idImage, this.tokenApiFiles).subscribe();
+      if (invoice.idImage !== undefined) {
+        this.afs.deleteInvoice(invoice.idImage, this.tokenApiFiles).subscribe();
       }
       const response = JSON.stringify(res);
       this.ns.notify('error', 'Eliminando...');
