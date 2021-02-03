@@ -10,6 +10,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {MeasureComponent} from './components/measure/measure.component';
 import {ProviderComponent} from './components/provider/provider.component';
 import {InvoiceComponent} from './components/invoice/invoice.component';
+import {BrandComponent} from './components/brand/brand.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
           { path: 'measure', component: MeasureComponent },
           { path: 'provider', component: ProviderComponent },
           { path: 'invoice', component: InvoiceComponent },
+          { path: 'brand', component: BrandComponent },
           {path: '**', pathMatch: 'full', redirectTo: 'dashboard'},
 
         ]

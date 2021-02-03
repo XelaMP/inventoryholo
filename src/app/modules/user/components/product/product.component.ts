@@ -33,11 +33,12 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
   categories: Category[] = [];
   measures: Measure[] = [];
   lots: Movement[] = [];
+  brands: Movement[] = [];
   private user: User;
   filter = 'all';
   temp = [];
   aux = [];
-
+  productName = '';
   constructor(public ps: ProductService, private nt: NotifierService, private cs: CategoryService, private us: UserService,
               private store: Store<any>, private ms: MeasureService, private xs: ExcelService,
               private mvs: MovementService) {
@@ -105,6 +106,8 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
     }));
   }
   getLots(idProduct: number): void {
+    const product = this.products.find(e => e._id === idProduct);
+    this.productName = product.name;
     const filter: Filter = {
       _id: idProduct.toString(),
       auxId: this.idWarehouse.toString()
@@ -114,10 +117,23 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
       this.lots.forEach((e, i) => {
         this.lots[i].dayDue = Utils.dueDateCompare(e.dueDate);
       });
+      this.lots = this.lots.sort((a, b) => new Date(a.dueDate) > new Date(b.dueDate) ? 1 : -1)
+    });
+  }
+  getBrands(idProduct: number): void {
+    const filter: Filter = {
+      _id: idProduct.toString(),
+      auxId: this.idWarehouse.toString()
+    };
+    this.mvs.getItemsAllBrandsWarehouse(filter).subscribe(() => {
+      this.brands = this.mvs.items;
     });
   }
   closeLots(): void {
     $('#form-lot').modal('hide');
+  }
+  closeBrands(): void {
+    $('#form-brand').modal('hide');
   }
 
   edit(item: any): void {

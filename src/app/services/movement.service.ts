@@ -22,4 +22,11 @@ export class MovementService extends Service{
       })
     );
   }
+  getItemsAllBrandsWarehouse(filter: Filter): Observable<any> {
+    return this.https.post(this.URL_API + `all-brands-warehouse/`, filter).pipe(
+      map((items: any[]) => {
+        this.items = items;
+      })
+    );
+  }
 }

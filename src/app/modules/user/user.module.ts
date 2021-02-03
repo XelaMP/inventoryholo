@@ -19,6 +19,7 @@ import {ProviderComponent} from './components/provider/provider.component';
 import {MeasureComponent} from './components/measure/measure.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import {PdfViewerModule} from 'ng2-pdf-viewer';
+import { BrandComponent } from './components/brand/brand.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -64,7 +65,7 @@ const customNotifierOptions: NotifierOptions = {
 
 @NgModule({
   declarations: [DashboardComponent, MainComponent, MovementComponent, ClientComponent,
-    ProductComponent, CategoryComponent, MeasureComponent, ProviderComponent, InvoiceComponent],
+    ProductComponent, CategoryComponent, MeasureComponent, ProviderComponent, InvoiceComponent, BrandComponent],
   imports: [
     CommonModule,
     UserRoutingModule,

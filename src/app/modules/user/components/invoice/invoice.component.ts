@@ -139,7 +139,7 @@ export class InvoiceComponent extends ComponentAbstract implements OnInit, OnDes
       this.uploadInvoice().then((e) => {
         this.item.idImage = e;
         this.addItem(this.item);
-      });
+        });
     } else {
       this.addItem(this.item);
     }

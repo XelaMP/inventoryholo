@@ -4,6 +4,7 @@ import * as fromRouter from '@ngrx/router-store';
 import {SEARCH, searchReducer} from './search/search.reducer';
 import {environment} from '../../environments/environment';
 import {InjectionToken} from '@angular/core';
+import {MOVEMENT, movementReducer} from './movement/movement.reducer';
 
 
 export interface RouterStateUrl {
@@ -20,6 +21,7 @@ function resetState(reducer): any {
 const reducers: ActionReducerMap<any> = {
   router: fromRouter.routerReducer,
   [SEARCH]: searchReducer,
+  [MOVEMENT]: movementReducer,
 };
 
 const metaReducers: MetaReducer<any>[] = !environment.production
