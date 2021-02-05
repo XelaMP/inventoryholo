@@ -10,6 +10,7 @@ import {User} from '../../../../interfaces/user';
 import {Product} from '../../../../interfaces/product';
 import {ProductService} from '../../../../services/product.service';
 import {MOVEMENT} from '../../../../store/movement/movement.reducer';
+import {Title} from '@angular/platform-browser';
 
 declare var $: any;
 
@@ -27,12 +28,15 @@ export class MainComponent implements OnInit, OnDestroy {
   systemUser: User;
   products: Product[] = [];
   productsNotification: Product[] = [];
+  counterNotification: Observable<number> = of(0);
 
-  constructor(private ls: LoginService, private us: UserService, private store: Store<any>, private ps: ProductService) {
+  constructor(private ls: LoginService, private us: UserService, private store: Store<any>,
+              private ps: ProductService, private title: Title) {
     this.search = store.pipe(select('search'));
     store.select(MOVEMENT).subscribe(data => {
       this.getNotifications();
     });
+    title.setTitle('Inventario Holosalud | Almacenero');
   }
 
   ngOnInit(): void {
@@ -70,6 +74,9 @@ export class MainComponent implements OnInit, OnDestroy {
         this.productsNotification.push(e);
       }
     });
+    this.counterNotification = of(this.productsNotification.length);
+    this.title.setTitle(this.title.getTitle() +
+      (this.productsNotification.length !== 0 ? ' (' + this.productsNotification.length + ')' : ''));
   }
 
   getProductsStock(idWarehouse: number): void {
@@ -84,6 +91,11 @@ export class MainComponent implements OnInit, OnDestroy {
     if (this.systemUser) {
       this.getProductsStock(this.systemUser.idWarehouse);
     }
+  }
+
+  viewNotifications(): void {
+    this.counterNotification = of(0);
+    this.title.setTitle('Inventario Holosalud | Almacenero');
   }
 
 
