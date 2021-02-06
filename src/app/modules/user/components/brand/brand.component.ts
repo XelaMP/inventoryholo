@@ -5,6 +5,7 @@ import {NotifierService} from 'angular-notifier';
 import {BrandService} from '../../../../services/brand.service';
 
 declare var $: any;
+
 @Component({
   selector: 'app-brand',
   templateUrl: './brand.component.html',
