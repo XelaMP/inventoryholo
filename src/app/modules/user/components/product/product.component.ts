@@ -16,6 +16,7 @@ import {MovementService} from '../../../../services/movement.service';
 import {Filter} from '../../../../interfaces/filter';
 import {Utils} from '../../../../shared/utils';
 import {ExcelService} from '../../../../services/excel.service';
+
 declare var $: any;
 
 @Component({
@@ -30,6 +31,7 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
   item: Product;
   idWarehouse: number;
   products: Product[] = [];
+  productId = 'all';
   categories: Category[] = [];
   measures: Measure[] = [];
   lots: Movement[] = [];
@@ -39,6 +41,10 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
   temp = [];
   aux = [];
   productName = '';
+  categoryID = 'all';
+  searchText = 'all';
+  searchTemp = '';
+
   constructor(public ps: ProductService, private nt: NotifierService, private cs: CategoryService, private us: UserService,
               private store: Store<any>, private ms: MeasureService, private xs: ExcelService,
               private mvs: MovementService) {
@@ -71,6 +77,12 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
       this.products = this.products.filter(data => data.name.toLowerCase().indexOf(val) !== -1 || !val);
     }
   }
+  searchcat(val: string): void {
+    this.products = this.temp;
+    if (this.filter !== 'all') {
+      this.products = this.products.filter(data => data.idCategory.toString() === this.filter);
+    }
+  }
 
   getItems(): void {
     if (this.user) {
@@ -83,7 +95,14 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
       this.products = this.ps.items;
       this.products = this.products.sort((a, b) => a.stock > b.stock ? 1 : -1);
       this.temp = this.products;
+
     });
+  }
+
+  getProductsCategory(idCategory: string): void {
+    this.subscription.add(this.ps.getItemsAllIdCategory(idCategory).subscribe(() => {
+      this.products = this.ps.items;
+    }));
   }
 
   private getUser(): void {
@@ -100,11 +119,13 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
       this.categories = this.cs.items;
     }));
   }
+
   private getMeasures(): void {
     this.subscription.add(this.ms.getItems().subscribe(() => {
       this.measures = this.ms.items;
     }));
   }
+
   getLots(idProduct: number): void {
     const product = this.products.find(e => e._id === idProduct);
     this.productName = product.name;
@@ -117,9 +138,10 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
       this.lots.forEach((e, i) => {
         this.lots[i].dayDue = Utils.dueDateCompare(e.dueDate);
       });
-      this.lots = this.lots.sort((a, b) => new Date(a.dueDate) > new Date(b.dueDate) ? 1 : -1)
+      this.lots = this.lots.sort((a, b) => new Date(a.dueDate) > new Date(b.dueDate) ? 1 : -1);
     });
   }
+
   getBrands(idProduct: number): void {
     const filter: Filter = {
       _id: idProduct.toString(),
@@ -129,9 +151,11 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
       this.brands = this.mvs.items;
     });
   }
+
   closeLots(): void {
     $('#form-lot').modal('hide');
   }
+
   closeBrands(): void {
     $('#form-brand').modal('hide');
   }
@@ -177,5 +201,23 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
     const fileName = 'Productos';
     this.xs.exportAsExcelFile(worksheet, fileName);
   }
+
+  changeCategory(): void {
+    this.products = [];
+    this.productId = 'all';
+    if (this.categoryID !== 'all') {
+      this.getProductsCategory(this.categoryID);
+    }
+    this.updateFilter();
+  }
+
+  updateFilter(): void {
+    this.products = this.aux;
+    const val = this.filter;
+    const idCat = this.categoryID === 'all' ? '' : this.categoryID;
+    this.products = this.products.filter(data => idCat === '' ? true : data.idCategory.toString() === idCat);
+    console.log(this.products);
+  }
+
 
 }
