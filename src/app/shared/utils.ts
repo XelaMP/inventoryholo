@@ -46,6 +46,7 @@ export class Utils {
       overlap: 150
     }
   };
+
   static validatorFields(fields: any[]): boolean {
     let field = true;
     fields.forEach((element) => {
@@ -55,6 +56,7 @@ export class Utils {
     });
     return field;
   }
+
   static validatorField(element: any): boolean {
     return !(element === '' || element === undefined || element === 0);
   }
@@ -76,6 +78,7 @@ export class Utils {
     }
     return nn;
   }
+
   static dueDateCompare(dueDateS: string): number {
     const dueDate = new Date(dueDateS);
     const date = new Date();
@@ -90,6 +93,15 @@ export class Utils {
       const sidebarbgskin = $(this).attr('data-sidebarbg');
       $('.left-sidebar').attr('data-sidebarbg', sidebarbgskin);
       $('.scroll-sidebar').attr('data-sidebarbg', sidebarbgskin);
+    });
+    // tslint:disable-next-line:only-arrow-functions
+    $('#sidebarToggle, #sidebarToggleTop').on('click', function(): void {
+      $('body').toggleClass('sidebar-toggled');
+      $('.sidebar').toggleClass('toggled');
+      if ($('.sidebar').hasClass('toggled')) {
+        $('.sidebar .collapse').collapse('hide');
+      }
+      ;
     });
 
 
@@ -129,7 +141,7 @@ export class Utils {
     });
 
     element.addClass('active');
-    $('#sidebarnav a').on('click', function(e): void{
+    $('#sidebarnav a').on('click', function(e): void {
       if (!$(this).hasClass('active')) {
         // hide any open menus and remove all other classes
         $('ul', $(this).parents('ul:first')).removeClass('in');

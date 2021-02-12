@@ -11,6 +11,7 @@ import {Product} from '../../../../interfaces/product';
 import {ProductService} from '../../../../services/product.service';
 import {MOVEMENT} from '../../../../store/movement/movement.reducer';
 import {Title} from '@angular/platform-browser';
+import {WarehouseService} from '../../../../services/warehouse.service';
 
 declare var $: any;
 
@@ -29,9 +30,11 @@ export class MainComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   productsNotification: Product[] = [];
   counterNotification: Observable<number> = of(0);
+  nameWarehouse: Observable<string> = of('Almacen');
+  userO: User;
 
   constructor(private ls: LoginService, private us: UserService, private store: Store<any>,
-              private ps: ProductService, private title: Title) {
+              private ps: ProductService, private title: Title, private ws: WarehouseService) {
     this.search = store.pipe(select('search'));
     store.select(MOVEMENT).subscribe(data => {
       this.getNotifications();
@@ -58,7 +61,9 @@ export class MainComponent implements OnInit, OnDestroy {
     this.subscription.add(this.us.getItem(id).subscribe(() => {
       this.systemUser = this.us.item;
       this.user = of(this.us.item.name);
+      this.userO = this.us.item;
       this.getNotifications();
+      this.getWarehouse(this.userO.idWarehouse);
 
     }));
   }
@@ -97,6 +102,11 @@ export class MainComponent implements OnInit, OnDestroy {
     this.counterNotification = of(0);
     this.title.setTitle('Inventario Holosalud | Almacenero');
   }
+  private getWarehouse(id: number): void {
+    this.subscription.add(this.ws.getItem(id.toString()).subscribe(() => {
+      this.nameWarehouse = of(this.ws.item.name);
+    }));
 
+  }
 
 }
