@@ -21,4 +21,7 @@ export interface ProductX {
   Stock: number;
   Medida?: string;
   Unidades?: number;
+  Descripción?: string;
+  Lotes?: string;
+  Fecha_Vencimiento?: string;
 }

@@ -86,7 +86,7 @@
   <div id="content-wrapper" class="d-flex flex-column">
 
     <!-- Main Content -->
-    <div id="content">
+
 
       <!-- Topbar -->
       <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -146,7 +146,7 @@
                     <!-- Message -->
                     <a
                       href="javascript:void(0)"
-                      class="message-item d-flex align-items-center border-bottom px-3 py-2"
+                      class="dropdown-item d-flex align-items-center"
                     >
                       <div class="btn rounded-circle btn-circle"
                            [ngClass]="item.stock == 0 ? 'btn-danger': 'btn-warning'">
@@ -154,13 +154,13 @@
                       </div>
                       <div class="w-75 d-inline-block v-middle pl-2">
                         <h6 class="message-title mb-0 mt-1">Alerta de Stock</h6>
-                        <span *ngIf="item.stock == 0" class="font-12 text-nowrap d-block text-muted">
+                        <span *ngIf="item.stock == 0" class="medium text-gray-600">
                           Producto agotado: {{item.name}}
                         </span>
-                        <span *ngIf="item.stock > 0" class="font-12 text-nowrap d-block text-muted">
+                        <span *ngIf="item.stock > 0" class="medium text-gray-600">
                           Se esta agotando: {{item.name}}
                         </span>
-                        <span *ngIf="item.stock > 0" class="font-12 text-nowrap d-block text-muted">
+                        <span *ngIf="item.stock > 0" class="medium text-gray-600">
                           {{item.stock}} {{item.measure}} disponible
                         </span>
                       </div>
@@ -197,36 +197,23 @@
               </a>
             </div>
           </li>
-
         </ul>
-
       </nav>
+    <router-outlet></router-outlet>
 
-
-      <router-outlet></router-outlet>
-
-
-    </div>
   </div>
 
 </div>
 
-<div class="page-wrapper">
-
-  <footer class="sticky-footer bg-white">
-    <div class="container my-auto">
-      <div class="copyright text-center my-auto">
+<footer class="sticky-footer bg-white">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
       <span>Copyright &copy; HolosaludTI {{anio}} -  Desarrollado por
       <a href="/">XelaMP</a>
       </span>
-      </div>
     </div>
-  </footer>
-
-</div>
-<a class="scroll-to-top rounded" href="#page-top">
-  <i class="fas fa-angle-up"></i>
-</a>
+  </div>
+</footer>
 
 <notifier-container></notifier-container>
 

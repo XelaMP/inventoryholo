@@ -188,13 +188,15 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
 
   downloadXLS(): void {
     const worksheet: ProductX[] = [];
+
     for (const x1 of this.products) {
       const no: ProductX = {
         Nombre: x1.name,
+        Descripción: x1.description,
         Precio: x1.price,
         Stock: x1.stock,
         Medida: x1.measure,
-        Unidades: x1.unity,
+        Unidades: x1.unity * x1.stock
       };
       worksheet.push(no);
     }
