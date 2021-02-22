@@ -8,7 +8,7 @@ export interface Movement {
   idClient?: number;
   idProvider?: number;
   date: string;
-  quantity: number;
+  quantity?: number;
   type: string;
 
   idLot?: number;
