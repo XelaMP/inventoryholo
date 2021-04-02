@@ -22,4 +22,25 @@ export class ProductService extends Service {
       })
     );
   }
+
+  getProductWarehouse(idWarehouse: string): Observable<any> {
+    return this.https.get(this.URL_API + `all-product-warehouse/${idWarehouse}`).pipe(
+      map((items: any[]) => {
+        this.items = items;
+      })
+    );
+  }
+  getAllNoIgnore(idWarehouse: string): Observable<any> {
+    return this.https.get(this.URL_API + `all-product-noignore/${idWarehouse}`).pipe(
+       map((items: any[]) => {
+         this.items = items;
+    }));
+  }
+  getAllNew(idWarehouse: number): Observable<any> {
+    return this.https.get(this.URL_API + `all-product-new/${idWarehouse}`).pipe(
+      map((items: any[]) => {
+        this.items = items;
+      }));
+  }
+
 }

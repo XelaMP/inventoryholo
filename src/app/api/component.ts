@@ -17,9 +17,11 @@ export abstract class ComponentAbstract {
   getItems(): void {
     this.subscription.add(this.service.getItems().subscribe());
   }
+
   hideModal(): void {
     $('#form-user').modal('hide');
   }
+
   addItem(item: any): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       if (this.idEdit !== '') {

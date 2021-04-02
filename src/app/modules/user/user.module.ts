@@ -20,6 +20,8 @@ import {MeasureComponent} from './components/measure/measure.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import {PdfViewerModule} from 'ng2-pdf-viewer';
 import { BrandComponent } from './components/brand/brand.component';
+import {MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxDefaultOptions, MatCheckboxModule} from '@angular/material/checkbox';
+
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -74,8 +76,10 @@ const customNotifierOptions: NotifierOptions = {
     NotifierModule.withConfig(customNotifierOptions),
     ComponentsModule,
     PdfViewerModule,
+    MatCheckboxModule
 
-  ]
+
+  ],
 })
 
 export class UserModule {

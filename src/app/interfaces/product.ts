@@ -12,6 +12,7 @@ export interface Product {
   unity?: number;
   minAlert?: number;
   perishable?: boolean;
+  ignore?: boolean;
 }
 
 

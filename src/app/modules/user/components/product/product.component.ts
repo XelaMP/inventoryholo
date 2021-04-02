@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ComponentAbstract} from '../../../../api/component';
 import {Product, ProductX} from '../../../../interfaces/product';
 import {Category} from '../../../../interfaces/category';
@@ -16,6 +16,8 @@ import {MovementService} from '../../../../services/movement.service';
 import {Filter} from '../../../../interfaces/filter';
 import {Utils} from '../../../../shared/utils';
 import {ExcelService} from '../../../../services/excel.service';
+import {ProductWarehouse} from '../../../../interfaces/productwarehouse';
+import {ProductWarehouseService} from '../../../../services/product-warehouse.service';
 
 declare var $: any;
 
@@ -30,6 +32,7 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
   title = 'Producto';
   item: Product;
   idWarehouse: number;
+  idproduct = 0;
   products: Product[] = [];
   productId = 'all';
   categories: Category[] = [];
@@ -43,11 +46,15 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
   productName = '';
   categoryID = 'all';
   searchText = 'all';
+
   searchTemp = '';
+  warehouseID: string;
+  check: boolean;
+
 
   constructor(public ps: ProductService, private nt: NotifierService, private cs: CategoryService, private us: UserService,
               private store: Store<any>, private ms: MeasureService, private xs: ExcelService,
-              private mvs: MovementService) {
+              private mvs: MovementService, private pws: ProductWarehouseService) {
     super(ps, nt);
     this.subscription.add(store.select(SEARCH).subscribe(data => {
       let text = 'all';
@@ -56,8 +63,8 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
       }
       this.search(text);
     }));
-
   }
+
 
   ngOnInit(): void {
     this.getCategories();
@@ -77,7 +84,8 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
       this.products = this.products.filter(data => data.name.toLowerCase().indexOf(val) !== -1 || !val);
     }
   }
-  searchcat(val: string): void {
+
+  filterCategory(val: string): void { // me tarde en sabr que era eso
     this.products = this.temp;
     if (this.filter !== 'all') {
       this.products = this.products.filter(data => data.idCategory.toString() === this.filter);
@@ -86,7 +94,7 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
 
   getItems(): void {
     if (this.user) {
-      this.getProductsStock(this.user.idWarehouse);
+      this.getProductNoIgnore();
     }
   }
 
@@ -99,9 +107,24 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
     });
   }
 
+  getProductNoIgnore(): void {
+    this.subscription.add(this.ps.getAllNoIgnore(this.user.idWarehouse.toString()).subscribe(() => {
+      this.products = this.ps.items;
+      this.temp = this.products;
+    }));
+  }
+
   getProductsCategory(idCategory: string): void {
     this.subscription.add(this.ps.getItemsAllIdCategory(idCategory).subscribe(() => {
       this.products = this.ps.items;
+    }));
+  }
+
+  getProductAllNew(): void {
+
+    this.subscription.add(this.ps.getAllNew(this.user.idWarehouse).subscribe(() => {
+      this.products = this.ps.items;
+      this.temp = this.products;
     }));
   }
 
@@ -110,7 +133,7 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
     this.subscription.add(this.us.getItem(id).subscribe(() => {
       this.user = this.us.item;
       this.idWarehouse = this.user.idWarehouse;
-      this.getProductsStock(this.user.idWarehouse);
+      this.getProductNoIgnore();
     }));
   }
 
@@ -182,7 +205,8 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
       idCategory: 0,
       price: 0,
       stock: 0,
-      perishable: false
+      perishable: false,
+      ignore: false
     };
   }
 
@@ -221,5 +245,31 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
     console.log(this.products);
   }
 
+  changeStatusProduct(idProduct: number, ignore: boolean): void {
+    const item: ProductWarehouse = {
+      idProduct,
+      idWarehouse: this.user.idWarehouse,
+      ignore
+    };
+    this.pws.changeStatus(item).subscribe((res) => {
+      this.subscription.add(this.ps.getAllNew(this.user.idWarehouse).subscribe(() => {
+        this.subscription.add(this.ps.getAllNoIgnore(this.user.idWarehouse.toString()).subscribe(() => {
+          this.changeIgnore();
+          this.products = this.ps.items;
+          this.temp = this.products;
+        }));
+      }));
 
+      console.log(res);
+    });
+  }
+
+  changeIgnore(): void {
+    if (this.check === true) {
+      this.getProductAllNew();
+    } else {
+      this.getProductNoIgnore();
+    }
+  }
 }
+

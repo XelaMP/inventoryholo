@@ -8,7 +8,7 @@ export abstract class Service {
   item;
   items: any[];
 
-  protected constructor(private http: HttpClient, readonly URL_API) {
+  protected constructor(private http: HttpClient, readonly URL_API: string) {
   }
 
   getItemsAllId(id: string): Observable<any> {
@@ -77,4 +77,5 @@ export abstract class Service {
   deleteItem(id: string): Observable<any> {
     return this.http.delete(this.URL_API + `${id}`);
   }
+
 }
