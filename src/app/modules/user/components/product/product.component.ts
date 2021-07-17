@@ -54,7 +54,7 @@ export class ProductComponent extends ComponentAbstract implements OnInit, OnDes
 
   constructor(public ps: ProductService, private nt: NotifierService, private cs: CategoryService, private us: UserService,
               private store: Store<any>, private ms: MeasureService, private xs: ExcelService,
-              private mvs: MovementService, private pws: ProductWarehouseService) {
+              private   mvs: MovementService, private pws: ProductWarehouseService) {
     super(ps, nt);
     this.subscription.add(store.select(SEARCH).subscribe(data => {
       let text = 'all';
